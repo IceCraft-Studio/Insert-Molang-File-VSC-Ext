@@ -49,7 +49,7 @@
 		"vscode": "^1.41.0"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.60.0"
+		"@types/vscode": "^1.41.0"
 	},
 	"maintainers": [
 		{
