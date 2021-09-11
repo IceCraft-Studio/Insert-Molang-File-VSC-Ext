@@ -12,7 +12,7 @@ When it inserts the MoLang file's code, it removes any newlines or returns, so y
 **MoLang files in subfolders aren't supported, refer only to files in root folders!**
 ### Usage example:
 
-![usage example](assets/example_usage.gif)
+![usage example](https://raw.githubusercontent.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-/main/assets/example_usage.gif)
 
 ## Setup
 
