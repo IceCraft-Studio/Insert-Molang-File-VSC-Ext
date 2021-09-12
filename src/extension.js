@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const fs = require('fs');
+const path = require('path');
 
 function activate(context) {
 	console.log('Insert MoLang File [Minecraft] - Loaded');
@@ -17,7 +18,7 @@ function textDocumentChange(event) {
 	file.name = document.fileName;
 
 	if ((file.name.endsWith('.json') || fileName.endsWith('.js')) && selection.isSingleLine) {
-		const fileRegex = /(.*)(subpacks|features|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(\\.*?[^\\]*\.json)/g
+		const fileRegex = /(.*)(subpacks|features|biomes|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)([\/\\].*?[^\/\\]*\.json)/gm
 		const fileMatch = fileRegex.exec(file.name);
 		file.path = fileMatch[0];
 		file.addonPath = fileMatch[1];
@@ -34,7 +35,7 @@ function textDocumentChange(event) {
 						text: ''
 					}
 					molangFile.name = string.text.substring(prefix.length);
-					molangFile.path = file.addonPath + 'molang\\' + molangFile.name;
+					molangFile.path = path.join(file.addonPath, 'molang', molangFile.name);
 					try {
 						molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
 						molangFile.text = molangFile.text.replace(/[\n\r\f]/gm, '');
