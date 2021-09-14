@@ -18,7 +18,7 @@ function textDocumentChange(event) {
 	file.name = document.fileName;
 
 	if ((file.name.endsWith('.json') || fileName.endsWith('.js')) && selection.isSingleLine) {
-		const fileRegex = /(.*)(subpacks|features|biomes|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)([\/\\].*?[^\/\\]*\.json)/gm
+		const fileRegex = /((?:.*[\/\\][^\/\\]*(?:(?:resource(?:\s|_|-)packs)|(?:behavior(?:\s|_|-)packs))[\/\\][^\/\\]*[\/\\])|(?:.*[\/\\][^\/\\]*(?:(?:beh\b)|(?:res\b)|(?:bp)|(?:rp)|(?:resource)|(?:behavior))[^\/\\]*[\/\\]))(subpacks|features|biomes|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)([\/\\].*?[^\/\\]*\.json)/gmi
 		const fileMatch = fileRegex.exec(file.name);
 		file.path = fileMatch[0];
 		file.addonPath = fileMatch[1];
