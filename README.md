@@ -4,6 +4,8 @@ Very simple extension to make development on Minecraft Bedrock edition little mo
 
 ## Usage
 
+*Before using this extension, make sure that either one of those keywords is present in the pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the pack folder is in a folder which name ends with `behavior_packs` or `resource_packs`!*
+
 To use this extension, simply type name of the MoLang file inside any string within an add-on file, you can optionally choose in settings of the extension that a prefix is required as well.  
 String must follow this pattern and must not contain anything else: `"{prefix}{fileName}.molang"`  
 If working in resource pack file it will only look into resource pack's `molang` folder and so with behavior packs.  
@@ -26,7 +28,7 @@ This extension is dependent on working with `.molang` files and so [Blockception
 
 ## Settings
 
-* `molang-insert.prefix`: optional setting to set prefix
+- `molang-insert.prefix`: optional setting to set prefix
 
 ## Known Issues
 
