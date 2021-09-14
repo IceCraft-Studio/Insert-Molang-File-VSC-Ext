@@ -21,7 +21,6 @@ When it inserts the MoLang file's code, it removes any newlines or returns, so y
  - Molang folder in your resource pack or behavior pack (*`[bp/rp]`*`\molang`) with MoLang files in it.
  - Any addon file to insert MoLang code into.
 
-
 ## Dependencies
 
 This extension is dependent on working with `.molang` files and so [Blockception's Minecraft Bedrock Development Extension](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension) is installed with this extension as dependency for syntax colouring and auto completion of MoLang, however it has much more helpful features as well.
