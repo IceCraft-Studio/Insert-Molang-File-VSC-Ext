@@ -4,10 +4,7 @@ Very simple extension to make development on Minecraft Bedrock edition little mo
 
 ## Usage
 
-*Before using this extension, make sure that either one of those keywords is present in the pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the pack folder is in a folder which name ends with `behavior_packs` or `resource_packs`!*
-
-To use this extension, simply type name of the MoLang file inside any string within an add-on file, you can optionally choose in settings of the extension that a prefix is required as well.  
-String must follow this pattern and must not contain anything else: `"{prefix}{fileName}.molang"`  
+To use this extension, simply right click on any string within an add-on file, a menu will pop up and you can select whichever file from molang folder you want to insert. It doesn't matter if the string is empty or not, it will simply replace it completely.
 If working in resource pack file it will only look into resource pack's `molang` folder and so with behavior packs.  
 When it inserts the MoLang file's code, it removes any newlines or returns, so you don't have to worry about json errors!
 
@@ -27,7 +24,17 @@ This extension is dependent on working with `.molang` files and so [Blockception
 
 ## Settings
 
-- `molang-insert.prefix`: optional setting to set prefix
+- `molang-insert.fileSorting`: set how files will be sorted in the menu
+- `molang-insert.typing.enabled`: set to `true` if you want to insert molang files by typing their name alone into a string (optionally with a prefix)
+- `molang-insert.typing.prefix`: optional setting to set prefix when using typing option mentioned above
+
+*More details are explained within VSCode settings.*
+  
+*When using the option to insert MoLang files by typing their name, make sure that either one of those keywords is present in the pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the pack folder is in a folder which name ends with `behavior_packs` or `resource_packs`!*
+
+*Usage example of inserting MoLang file by typing its name:*
+
+![usage example legacy](https://raw.githubusercontent.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-/main/assets/example_usage_legacy.gif)
 
 ## Known Issues
 
