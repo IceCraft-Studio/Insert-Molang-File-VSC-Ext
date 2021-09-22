@@ -1,8 +1,8 @@
 {
 	"name": "insert-molang-file",
 	"displayName": "Insert MoLang File [Minecraft Bedrock]",
-	"description": "This extension let's you use '.molang' files when working on larger scripts and then easily insert them as single-line string into any Minecraft Bedrock add-on file.",
-	"version": "1.0.3",
+	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as single-line string into any Minecraft Bedrock add-on file.",
+	"version": "2.0.0",
 	"icon": "assets/icon.png",
 	"license": "CC BY-NC-ND 4.0",
 	"publisher": "IceCraftStudio",
@@ -29,17 +29,59 @@
 	],
 	"main": "./src/extension.js",
 	"contributes": {
+		"commands": [
+			{
+				"command": "molang-insert.openUi",
+				"title": "Insert MoLang File",
+				"category": "MoLang Insert"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"when": "editorLangId == javascript || editorLangId == json || editorLangId == jsonc",
+					"command": "molang-insert.openUi",
+					"group": "MolangInsertContext"
+				}
+			],
+			"commandPalette": [
+				{
+					"when": "editorLangId == javascript || editorLangId == json || editorLangId == jsonc",
+					"command": "molang-insert.openUi",
+					"group": "MolangInsertContext"
+				}
+			]
+		},
 		"configuration": [
 			{
 				"title": "Molang Insertation",
 				"properties": {
-					"molang-insert.prefix": {
+					"molang-insert.typing.prefix": {
 						"scope": "resource",
 						"minLength": 0,
 						"maxLength": 3,
 						"type": "string",
 						"default": "",
-						"description": "Sepecifies prefix for a string to use before MoLang file name in such format: `{prefix}{fileName}.molang`, leave blank for no prefix to be required in the string."
+						"markdownDescription": "Sepecifies prefix for a string to use before MoLang file name in such format: `{prefix}{fileName}.molang`, leave blank for no prefix to be required in the string. *Only applies when `#molang-insert.typing.enabled#` is set to `true`.*"
+					},
+					"molang-insert.typing.enabled": {
+						"scope": "resource",
+						"type": "boolean",
+						"default": true,
+						"markdownDescription": "If set to `true`, you can insert MoLang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for changes to take effect.*"
+					},
+					"molang-insert.fileSorting": {
+						"scope": "resource",
+						"default": "dateModified",
+						"enum": [
+							"dateModified",
+							"alphabetical"
+						],
+						"enumDescriptions": [
+							"Sorts the files by their date modified.",
+							"Sorts the files by their name alphabetically."
+						],
+						"description": "Sets the order of files in the Insert MoLang File menu."
 					}
 				}
 			}
