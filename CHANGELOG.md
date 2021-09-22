@@ -15,3 +15,16 @@
 ### Features
 - *New condition!* - Now either one of those keywords must be present in the root pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the root pack folder must be in folder which name ends with `behavior_packs` or `resource_packs` in order for the molang insertation to work.  
 *This change's been made so that the feature is restricted to Minecraft add-on workspace.*
+
+## 2.0.0
+
+### Features
+- *Actual UI for selecting the files!* - Now you can right click on a string or use the command pallete to bring **Insert MoLang File** menu which lets you select the files instead of typing their name inside the string, it doesn't matter if the string is empty or not it will simply replace it completely with contenets of selected molang file without whitespace characters.
+  
+- New setting `molang-insert.fileSorting` - sets the order of files in the menu, either sorted by date modified or alphabetically.
+
+### Changes
+- Because of the UI addition, now legacy way of using the extension is toggleable using `molang-insert.typing.enabled` setting, which you might turn of if you would like you!
+
+### Bug Fixes
+- Certain files will no longer throw errors.
