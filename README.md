@@ -4,7 +4,7 @@ Very simple extension to make development on Minecraft Bedrock edition little mo
 
 ## Usage
 
-To use this extension, simply right click on any string within an add-on file, a menu will pop up and you can select whichever file from molang folder you want to insert. It doesn't matter if the string is empty or not, it will simply replace it completely.
+To use this extension, simply right click *(you can also use command pallete)* on any string within an add-on file, a menu will pop up and you can select whichever file from molang folder you want to insert. It doesn't matter if the string is empty or not, it will simply replace it completely.
 If working in resource pack file it will only look into resource pack's `molang` folder and so with behavior packs.  
 When it inserts the MoLang file's code, it removes any newlines or returns, so you don't have to worry about json errors!
 
@@ -15,7 +15,7 @@ When it inserts the MoLang file's code, it removes any newlines or returns, so y
 
 ## Setup
 
- - Molang folder in your resource pack or behavior pack (*`[bp/rp]`*`\molang`) with MoLang files in it.
+ - Molang folder in your resource pack or behavior pack (*`[BP/RP]`*`\molang`) with MoLang files in it.
  - Any addon file to insert MoLang code into.
 
 ## Dependencies
