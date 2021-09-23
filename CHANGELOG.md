@@ -19,7 +19,7 @@
 ## 2.0.0
 
 ### Features
-- *Actual UI for selecting the files!* - Now you can right click on a string or use the command pallete to bring **Insert MoLang File** menu which lets you select the files instead of typing their name inside the string, it doesn't matter if the string is empty or not it will simply replace it completely with contenets of selected molang file without whitespace characters.
+- *Actual UI for selecting the files!* - Now you can right click on a string or use the command pallete to bring **Insert MoLang File** menu which lets you select the files instead of typing their name inside the string, it doesn't matter if the string is empty or not it will simply replace it completely with contents of selected MoLang file without whitespace characters.
   
 - New setting `molang-insert.fileSorting` - sets the order of files in the menu, either sorted by date modified or alphabetically.
 
