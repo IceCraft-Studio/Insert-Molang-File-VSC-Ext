@@ -28,3 +28,11 @@
 
 ### Bug Fixes
 - Certain files will no longer throw errors.
+
+## 2.1.0
+
+### Features
+- Comments are now possible inside of MoLang files, single-line using `#` or `//` and multi-line using `/*` and `*/`.
+
+### Other
+- Removed some unnecessary code.
