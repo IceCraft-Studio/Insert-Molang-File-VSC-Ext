@@ -174,7 +174,7 @@ function insertMolangFile(addonPath, string, prefix) {
 		molangFile.path = path.join(addonPath, 'molang', molangFile.name);
 		try {
 			molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
-			molangFile.text = molangFile.text.replace(/[\n\r\f]/gm, '');
+			molangFile.text = molangFile.text.replace(/(?:(?:#|\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
 			function editText() {
 				return new Promise(waitForEditor);
 				function waitForEditor(resolve, reject) {
