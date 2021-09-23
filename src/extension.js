@@ -101,7 +101,7 @@ function generateUiContent(addonPath, panel) {
 				} else {
 					var length = 99;
 				}
-				files[file].preview = fs.readFileSync(filePath, 'utf8').substring(0, length).replace(/[\n\r\f]/gm, '');
+				files[file].preview = fs.readFileSync(filePath, 'utf8').substring(0, length).replace(/(?:(?:#|\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');;
 			}
 		});
 	} catch {
