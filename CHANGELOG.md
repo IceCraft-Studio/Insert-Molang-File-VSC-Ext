@@ -24,7 +24,7 @@
 - New setting `molang-insert.fileSorting` - sets the order of files in the menu, either sorted by date modified or alphabetically.
 
 ### Changes
-- Because of the UI addition, now legacy way of using the extension is toggleable using `molang-insert.typing.enabled` setting, which you might turn of if you would like you.
+- Because of the UI addition, now legacy way of using the extension is toggleable using `molang-insert.typing.enabled` setting, which you might turn off if you would like you.
 
 ### Bug Fixes
 - Certain files will no longer throw errors.
