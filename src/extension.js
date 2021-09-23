@@ -86,8 +86,6 @@ function generateUiContent(addonPath, panel) {
 	//Main Variables:
 	const molangFolder = path.join(addonPath, 'molang');
 	var files = {};
-	var htmlCode = '';
-	var paragraph = '';
 	var fileItems = '';
 
 	//File Info:
@@ -114,7 +112,6 @@ function generateUiContent(addonPath, panel) {
 
 	//File List:
 	if (Object.keys(files).length != 0) {
-		paragraph = 'Choose a file from the list of files found here:';
 		const fileSorting = vscode.workspace.getConfiguration('molang-insert').get('fileSorting');
 		if (fileSorting === "dateModified") {
 			files = Object.fromEntries(
@@ -136,7 +133,7 @@ function generateUiContent(addonPath, panel) {
 		vscode.window.showInformationMessage(`Molang folder doesn't have any MoLang files inside!`);
 		return
 	}
-	htmlCode = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert MoLang File</title> </head> <style> * { color: var(--vscode-foreground); } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <p><i>Leave this tab to close.</i></p> <h1>Insert MoLang File</h1> <p>${paragraph}</p> <div> ${fileItems} </div> <p><b>DIRECTORY: </b><code>${molangFolder}</code></p> </body> </html>`;
+	const htmlCode = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert MoLang File</title> </head> <style> * { color: var(--vscode-foreground); } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <p><i>Leave this tab to close.</i></p> <h1>Insert MoLang File</h1> <p>Choose a file from the list of files found here:</p> <div> ${fileItems} </div> <p><b>DIRECTORY: </b><code>${molangFolder}</code></p> </body> </html>`;
 	return htmlCode
 }
 
