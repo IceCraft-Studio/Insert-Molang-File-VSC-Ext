@@ -31,13 +31,13 @@ function molangInsertUi() {
 	var panel = vscode.window.createWebviewPanel(
 		'molang-insert',
 		'Insert MoLang File',
-		vscode.window.activeTextEditor.viewColumn,
+		textEditor.viewColumn,
 		{
 			enableScripts: true
 		}
 	);
 
-	const fileRegex = /(.*)(?:subpacks|features|biomes|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:[\/\\].*?[^\/\\]*\.json)/gmi
+	const fileRegex = /(.*)(?:subpacks|features|biomes|feature_rules|entities|entity|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:[\/\\].*?[^\/\\]*\.json)/gmi
 	const fileMatch = fileRegex.exec(document.fileName);
 	if (fileMatch === null) {
 		panel.dispose();
@@ -54,7 +54,7 @@ function molangInsertUi() {
 			//Panel HTML:
 			panel.webview.html = generateUiContent(addonPath, panel);
 
-			//Panel events:
+			//Panel Events:
 			panel.onDidChangeViewState(event => {
 				if (event.webviewPanel.visible === false) {
 					panel.dispose();
