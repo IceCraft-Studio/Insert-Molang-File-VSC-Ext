@@ -36,3 +36,8 @@
 
 ### Other
 - Removed some unnecessary code.
+
+## 2.1.1
+
+### Bug Fixes
+- Client entity files no longer send false error messages.
