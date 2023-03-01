@@ -1,6 +1,6 @@
 # Insert MoLang File \[Minecraft Bedrock\]
 
-Very simple extension to make development on Minecraft Bedrock edition little more easier.
+Very simple extension to make development on Minecraft Bedrock edition little more easier, it gives you options to insert `.molang` files into `.json` files without a problem.
 
 ## Usage
 
@@ -43,6 +43,11 @@ So far no issues have been spotted.
 
 #
 
-This extension is made by Studio IceCraft
+This extension is made by **Studio IceCraft**
  - [Our Website!](https://www.icecraftstudio.repl.co) *WIP*
  - [Our Discord Server!](https://discord.com/invite/K28m8cKp74)
+
+\
+*Not affiliated with Mojang or Microsoft*
+
+***Minecraft is an IP owned by Microsoft and Molang is a part of this IP, all legal rights to those subjects belong to them.***

@@ -45,8 +45,8 @@
 ## 2.2.0
 
 ### Bug Fixed
-- Fixed uncaught errors with `selection`
+- Fixed uncaught errors with `selection`.
 
 ### Other
 - Changed the source code's license to a more viable solution.
-- Removed unnecessary dependancy on *Blockception's Minecraft Bedrock Development*
+- Removed unnecessary dependancy on [Blockception's Minecraft Bedrock Development](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension).
