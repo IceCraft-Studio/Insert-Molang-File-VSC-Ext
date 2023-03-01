@@ -1,12 +1,12 @@
 {
 	"name": "insert-molang-file",
-	"displayName": "Insert MoLang File [Minecraft Bedrock]",
+	"displayName": "Insert Molang File [Minecraft Bedrock]",
 	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as single-line string into any Minecraft Bedrock add-on file.",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"icon": "assets/icon.png",
-	"license": "CC BY-NC-ND 4.0",
+	"license": "SEE LICENSE IN LICENSE.md",
 	"publisher": "IceCraftStudio",
-	"homepage": "https://github.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-",
+	"homepage": "https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext",
 	"author": {
 		"name": "IceCraft Studio",
 		"url": "https://www.icecraftstudio.repl.co/"
@@ -24,29 +24,28 @@
 	],
 	"activationEvents": [
 		"onLanguage:json",
-		"onLanguage:jsonc",
-		"onLanguage:javascript"
+		"onLanguage:jsonc"
 	],
 	"main": "./src/extension.js",
 	"contributes": {
 		"commands": [
 			{
 				"command": "molang-insert.openUi",
-				"title": "Insert MoLang File",
-				"category": "MoLang Insert"
+				"title": "Insert Molang File",
+				"category": "Molang Insert"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
-					"when": "editorLangId == javascript || editorLangId == json || editorLangId == jsonc",
+					"when": "editorLangId == json || editorLangId == jsonc",
 					"command": "molang-insert.openUi",
 					"group": "MolangInsertContext"
 				}
 			],
 			"commandPalette": [
 				{
-					"when": "editorLangId == javascript || editorLangId == json || editorLangId == jsonc",
+					"when": "editorLangId == json || editorLangId == jsonc",
 					"command": "molang-insert.openUi",
 					"group": "MolangInsertContext"
 				}
@@ -62,13 +61,13 @@
 						"maxLength": 3,
 						"type": "string",
 						"default": "",
-						"markdownDescription": "Sepecifies prefix for a string to use before MoLang file name in such format: `{prefix}{fileName}.molang`, leave blank for no prefix to be required in the string. *Only applies when `#molang-insert.typing.enabled#` is set to `true`.*"
+						"markdownDescription": "Sepecifies prefix for a string to use before Molang file name in such format: `{prefix}{fileName}.molang`, leave blank for no prefix to be required in the string. *Only applies when `#molang-insert.typing.enabled#` is set to `true`.*"
 					},
 					"molang-insert.typing.enabled": {
 						"scope": "resource",
 						"type": "boolean",
 						"default": true,
-						"markdownDescription": "If set to `true`, you can insert MoLang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for changes to take effect.*"
+						"markdownDescription": "If set to `true`, you can insert Molang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for changes to take effect.*"
 					},
 					"molang-insert.fileSorting": {
 						"scope": "resource",
@@ -81,17 +80,17 @@
 							"Sorts the files by their date modified.",
 							"Sorts the files by their name alphabetically."
 						],
-						"description": "Sets the order of files in the Insert MoLang File menu."
+						"description": "Sets the order of files in the Insert Molang File menu."
 					}
 				}
 			}
 		]
 	},
 	"engines": {
-		"vscode": "^1.41.0"
+		"vscode": "^1.76.0"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.41.0"
+		"@types/vscode": "^1.76.0"
 	},
 	"maintainers": [
 		{
@@ -100,13 +99,10 @@
 		}
 	],
 	"repository": {
-		"url": "https://github.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-",
+		"url": "https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext",
 		"type": "git"
 	},
 	"extensionKind": [
 		"workspace"
-	],
-	"extensionDependencies": [
-		"BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension"
 	]
 }

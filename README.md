@@ -21,7 +21,7 @@ Comments are supported within MoLang files like so: single-line comments using `
 
 ## Dependencies
 
-This extension is dependent on working with `.molang` files and so [Blockception's Minecraft Bedrock Development Extension](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension) is installed with this extension as dependency for syntax colouring and auto completion of MoLang, however it has much more helpful features as well.
+This extension does not have any dependencies.
 
 ## Settings
 

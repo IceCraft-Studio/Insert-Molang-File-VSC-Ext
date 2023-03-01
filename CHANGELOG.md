@@ -41,3 +41,12 @@
 
 ### Bug Fixes
 - Client entity files no longer send false error messages.
+
+## 2.2.0
+
+### Bug Fixed
+- Fixed uncaught errors with `selection`
+
+### Other
+- Changed the source code's license to a more viable solution.
+- Removed unnecessary dependancy on *Blockception's Minecraft Bedrock Development*
