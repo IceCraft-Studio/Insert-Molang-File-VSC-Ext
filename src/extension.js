@@ -191,6 +191,8 @@ function insertMolangFile(addonPath, string, prefix) {
 		molangFile.path = path.join(addonPath, 'molang', molangFile.name);
 		try {
 			molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
+			//!Removed comment option as # for good reasons
+			//!Also need to make molang comment parser to make sure that 
 			molangFile.text = molangFile.text.replace(/(?:(?:\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
 			function editText() {
 				return new Promise(waitForEditor);
@@ -212,6 +214,92 @@ function insertMolangFile(addonPath, string, prefix) {
 			vscode.window.showInformationMessage(`"${molangFile.name}" can't be found!`);
 		}
 	}
+}
+
+const CommentTypes = {
+	'none': -1,
+	'inline': 0,
+	'block': 1
+};
+
+/**
+ * Algorithm to trim Molang source code text of comments and new lines.
+ * @param {string} molangText 
+ * @returns 
+ */
+function parseMolang(molangText) {
+	let parsedMolangString = '';
+
+	const quoteChar = '\'';
+	const inlineCommentChars = '//';
+	const blockCommentChars = ['/*','*/'];
+
+	let inString = false;
+	let inComment = CommentTypes.none;
+	let holdChars = '';
+
+	for (let index = 0;index < molangText.length;index++) {
+		const char = molangText[index];
+
+		if (char === '\n') {
+			continue;
+		}
+		//### Molang string handling, comments don't  inside.
+		if (char === quoteChar) inString = !inString;
+		if (inString) {
+			parsedMolangString += char;
+			continue;
+		}
+
+		switch (inComment) {
+			case CommentTypes.none:
+				let sliceToCompare;
+				//### Inline Comments
+				sliceToCompare = molangText.slice((index-inlineCommentChars.length)+1,index+1);
+				if (sliceToCompare === inlineCommentChars) {
+					inComment = CommentTypes.inline;
+				}
+				//### Block Comments
+				sliceToCompare = molangText.slice((index-blockCommentChars[0].length)+1,index+1);
+				if (sliceToCompare === blockCommentChars[0]) {
+					inComment = CommentTypes.block;
+				}
+				//### String still isn't start of a comment.
+				if (inComment === CommentTypes.none) {
+					//### Character might be start of a comment, so it gets put "on hold".
+					if (char === blockCommentChars[0][0] || char === inlineCommentChars[0]) {
+						holdChars += char;
+					}
+					//### Nothing is "on hold", character can be safely returned.
+					if (holdChars.length === 0) {
+						parsedMolangString += char;
+					}
+					//### First "on hold" character isn't start of a comment, so it gets put "out of hold"
+					if (holdChars.length === 2) {
+						parsedMolangString += holdChars[0];
+						holdChars = holdChars[1];
+					}
+				} else {
+					//### Reset characters "on hold", because the characters were start of a comment.
+					holdChars = '';
+				}
+			break;
+			case CommentTypes.inline:
+				//### Inline comments break on a newline.
+				if (char === '\n') {
+					inComment = CommentTypes.none;
+				}
+			break;
+			case CommentTypes.block:
+				//### Block comments break on breaking characters.
+				sliceToCompare = molangText.slice((index-blockCommentChars[1].length)+1,index+1);
+				if (sliceToCompare === blockCommentChars[1]) {
+					inComment = CommentTypes.none;
+				}
+			break;
+		}
+	}
+	return parsedMolangString;
 }
 
 //Gettings String on the Line:
