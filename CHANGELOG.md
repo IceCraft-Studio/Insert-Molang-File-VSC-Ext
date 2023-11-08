@@ -54,7 +54,7 @@
 ## 2.3.0
 
 ### ! Breaking Changes !
-- Removed the option to use `#` to make inline comments for technical reasons and simplicity use `//` instead.
+- Removed the option to use `#` to make inline comments for technical reasons and simplicity, use `//` instead.
 
 ### Bug Fixes
 - Fixed a bug, that subfolders with a names used by some root folder, made the extension look for the `molang` folder in an incorrect directory. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
