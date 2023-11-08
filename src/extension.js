@@ -58,7 +58,7 @@ function molangInsertUi() {
 		}
 	);
 
-	const fileRegex = /(.*)(?:subpacks|features|biomes|feature_rules|entities|entity|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:[\/\\].*?[^\/\\]*\.json)/gmi
+	const fileRegex = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:\/|\\).*?[^\/\\]*\.json)/gmi
 	const fileMatch = fileRegex.exec(document.fileName);
 	if (fileMatch === null) {
 		panel.dispose();
@@ -73,7 +73,8 @@ function molangInsertUi() {
 		return;
 	}
 
-	const addonPath = fileMatch[1];
+	const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
+	vscode.window.showInformationMessage(addonPath);
 	panel.webview.html = generateUiContent(addonPath, panel);
 
 	panel.onDidChangeViewState(event => {
@@ -155,25 +156,26 @@ function generateUiContent(addonPath, panel) {
 }
 
 //Typing Insert Trigger:
+/**
+ * 
+ * @param {import('vscode').TextDocumentChangeEvent} event 
+ * @returns 
+ */
 function textDocumentChange(event) {
-	let file = {};
 	const document = event.document;
 	const textEditor = vscode.window.activeTextEditor;
 	const selection = textEditor?.selection;
 	if (selection == null) return;
 
-	file.name = document.fileName;
-
-	if ((file.name.endsWith('.json') || file.name.endsWith('.js')) && selection.isSingleLine) {
-		const fileRegex = /((?:.*[\/\\][^\/\\]*(?:(?:resource(?:\s|_|-)packs)|(?:behavior(?:\s|_|-)packs))[\/\\][^\/\\]*[\/\\])|(?:.*[\/\\][^\/\\]*(?:(?:beh\b)|(?:res\b)|(?:bp)|(?:rp)|(?:resource)|(?:behavior))[^\/\\]*[\/\\]))(?:subpacks|features|biomes|feature_rules|entities|scripts|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|functions|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:[\/\\].*?[^\/\\]*\.json)/gmi
-		const fileMatch = fileRegex.exec(file.name);
-		if (fileMatch) {
-			file.path = fileMatch[0];
-			file.addonPath = fileMatch[1];
-			if (typeof file.addonPath !== "undefined") {
+	if (document.fileName.endsWith('.json') && selection.isSingleLine) {
+		const fileRegex = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:\/|\\).*?[^\/\\]*\.json)/gmi
+		const fileMatch = fileRegex.exec(document.fileName);
+		if (fileMatch && (fileMatch[1]?.length > 0)) {
+			const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
+			if (addonPath != null) {
 				const prefix = vscode.workspace.getConfiguration('molang-insert.typing').get('prefix');
 				const string = findString(document, selection);
-				if (string) insertMolangFile(file.addonPath, string, prefix);
+				if (string) insertMolangFile(addonPath, string, prefix);
 			}
 		}
 	}
@@ -191,8 +193,6 @@ function insertMolangFile(addonPath, string, prefix) {
 		molangFile.path = path.join(addonPath, 'molang', molangFile.name);
 		try {
 			molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
-			//!Removed comment option as # for good reasons
-			//!Also need to make molang comment parser to make sure that 
 			molangFile.text = molangFile.text.replace(/(?:(?:\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
 			function editText() {
 				return new Promise(waitForEditor);
