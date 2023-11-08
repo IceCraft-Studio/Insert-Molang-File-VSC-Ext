@@ -44,9 +44,18 @@
 
 ## 2.2.0
 
-### Bug Fixed
+### Bug Fixes
 - Fixed uncaught errors with `selection`.
 
 ### Other
 - Changed the source code's license to a more viable solution.
 - Removed unnecessary dependancy on [Blockception's Minecraft Bedrock Development](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension).
+
+## 2.3.0
+
+### ! Breaking Changes !
+- Removed the option to use `#` to do inline comments for technical reasons and simplicity.
+
+### Bug Fixes
+- Fixed issue with subfolders with the names of root folders looking for the `molang` folder in the incorrect place. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
+- Insert will now ignore comment characters like `//` or `/* */` inside Molang strings and keep the string unchanged.

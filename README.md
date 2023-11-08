@@ -7,7 +7,7 @@ Very simple extension to make development on Minecraft Bedrock edition little mo
 To use this extension, simply right click *(you can also use command pallete)* on any string within an add-on file, a menu will pop up and you can select whichever file from molang folder you want to insert. It doesn't matter if the string is empty or not, it will simply replace it completely.
 If working in resource pack file it will only look into resource pack's `molang` folder and so with behavior packs.  
 When it inserts the MoLang file's code, it removes any newlines or returns, so you don't have to worry about json errors!  
-Comments are supported within MoLang files like so: single-line comments using `#<comment>` or `//<comment>` and multi-line comments using `/*<comment>*/`. They will be ignored and won't be inserted.
+Comments are supported within MoLang files like so: single-line comments using `//<comment>` and multi-line comments using `/*<comment>*/`. They will be ignored and won't be inserted.
 
 **MoLang files in subfolders aren't supported, refer only to files in root folders!**
 ### Usage example:

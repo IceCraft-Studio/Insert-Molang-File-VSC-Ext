@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
-//var output = vscode.window.createOutputChannel("Molang-Insert");
+//const output = vscode.window.createOutputChannel("Molang-Insert");
 
 //Activation of the Extension:
 function activate(context) {
@@ -74,7 +74,6 @@ function molangInsertUi() {
 	}
 
 	const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
-	vscode.window.showInformationMessage(addonPath);
 	panel.webview.html = generateUiContent(addonPath, panel);
 
 	panel.onDidChangeViewState(event => {
@@ -101,14 +100,14 @@ function molangInsertUi() {
 	);
 }
 
-//MoLang Insert UI Generator:
+//# MoLang Insert UI Generator:
 function generateUiContent(addonPath, panel) {
 	const molangFolder = path.join(addonPath, 'molang');
 	let files = {};
 	let fileItems = '';
 	let length = 99;
 
-	//File Info:
+	//## File Info:
 	try {
 		fs.readdirSync(molangFolder).forEach(file => {
 			if (file.endsWith('.molang')) {
@@ -119,7 +118,7 @@ function generateUiContent(addonPath, panel) {
 				if (fileContents.length < 100) {
 					length = fileContents.length;
 				}
-				files[file].preview = fs.readFileSync(filePath, 'utf8').substring(0, length).replace(/(?:(?:#|\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');;
+				files[file].preview = fs.readFileSync(filePath, 'utf8').substring(0, length).replace(/(?:(?:#|\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
 			}
 		});
 	} catch {
@@ -129,7 +128,7 @@ function generateUiContent(addonPath, panel) {
 	}
 
 	//File List:
-	if (Object.keys(files).length != 0) {
+	if (Object.keys(files).length) {
 		const fileSorting = vscode.workspace.getConfiguration('molang-insert').get('fileSorting');
 		if (fileSorting === "dateModified") {
 			files = Object.fromEntries(
@@ -142,7 +141,7 @@ function generateUiContent(addonPath, panel) {
 		}
 		for (const file in files) {
 			const preview = files[file].preview;
-			const dateModified = files[file].date.toLocaleDateString("default", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", minute: "2-digit" });
+			const dateModified = files[file].date.toLocaleDateString("default", { month: "short", day: "numeric", year: "numeric", hour: "2-digit", hour12: false, minute: "2-digit" });
 			const fileName = file;
 			fileItems += `<div class="file-item" onclick="sendMessage('file','${fileName}');"> <span class="name">${fileName}</span> <div class="preview">${preview}</div> <span class="date-modified"><i>Date modified: ${dateModified}</i></span> </div>`;
 		}
@@ -155,7 +154,7 @@ function generateUiContent(addonPath, panel) {
 	return htmlCode;
 }
 
-//Typing Insert Trigger:
+//# Typing Insert Trigger:
 /**
  * 
  * @param {import('vscode').TextDocumentChangeEvent} event 
@@ -181,7 +180,13 @@ function textDocumentChange(event) {
 	}
 }
 
-//MoLang Insert:
+//# Inserting Molang File
+/**
+ * Function that handles the inserting trimmed Molang file code into the string selection.
+ * @param {string} addonPath Path to the root of the pack, where the `molang` folder would be located.
+ * @param {string} string Name of the Molang File.
+ * @param {string} prefix Prefix the name must start with to confirm the insert.
+ */
 function insertMolangFile(addonPath, string, prefix) {
 	if (string.text.startsWith(prefix) && string.text.endsWith('.molang')) {
 		const molangFile = {
@@ -195,16 +200,15 @@ function insertMolangFile(addonPath, string, prefix) {
 			molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
 			molangFile.text = molangFile.text.replace(/(?:(?:\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
 			function editText() {
-				return new Promise(waitForEditor);
-				function waitForEditor(resolve, reject) {
+				return new Promise((resolve, reject) => {
 					if (vscode.window.activeTextEditor !== undefined) {
 						resolve(vscode.window.activeTextEditor);
 					} else {
 						setTimeout(waitForEditor.bind(this, resolve, reject), 100);
 					}
-				}
+				});
 			}
-			editText().then(function () {
+			editText().then(() => {
 				vscode.window.activeTextEditor.edit(editBuilder => {
 					editBuilder.replace(string.range, molangFile.text);
 					vscode.window.showInformationMessage(`"${molangFile.name}" successfully inserted!`);
@@ -216,6 +220,7 @@ function insertMolangFile(addonPath, string, prefix) {
 	}
 }
 
+//# Trimming Molang
 const CommentTypes = {
 	'none': -1,
 	'inline': 0,
@@ -227,8 +232,8 @@ const CommentTypes = {
  * @param {string} molangText 
  * @returns 
  */
-function parseMolang(molangText) {
-	let parsedMolangString = '';
+function trimMolang(molangText) {
+	let trimmedMolangString = '';
 
 	const quoteChar = '\'';
 	const inlineCommentChars = '//';
@@ -241,43 +246,36 @@ function parseMolang(molangText) {
 	for (let index = 0;index < molangText.length;index++) {
 		const char = molangText[index];
 
-		if (char === '\n') {
-			continue;
-		}
-		//### Molang string handling, comments don't  inside.
-		if (char === quoteChar) inString = !inString;
+		//### Molang string handling, comments don't work inside.
+		if (char === quoteChar && inComment === CommentTypes.none) inString = !inString;
 		if (inString) {
-			parsedMolangString += char;
+			if (char !== '\n') trimmedMolangString += char;
 			continue;
 		}
 
+		let sliceToCompare;
 		switch (inComment) {
 			case CommentTypes.none:
-				let sliceToCompare;
 				//### Inline Comments
 				sliceToCompare = molangText.slice((index-inlineCommentChars.length)+1,index+1);
-				if (sliceToCompare === inlineCommentChars) {
-					inComment = CommentTypes.inline;
-				}
+				if (sliceToCompare === inlineCommentChars) inComment = CommentTypes.inline;
 				//### Block Comments
 				sliceToCompare = molangText.slice((index-blockCommentChars[0].length)+1,index+1);
-				if (sliceToCompare === blockCommentChars[0]) {
-					inComment = CommentTypes.block;
-				}
+				if (sliceToCompare === blockCommentChars[0]) inComment = CommentTypes.block;
 				//### String still isn't start of a comment.
 				if (inComment === CommentTypes.none) {
+					//### First "on hold" character isn't start of a comment, so it gets put "out of hold"
+					if (holdChars.length === 1) {
+						trimmedMolangString += holdChars[0];
+						holdChars = holdChars.slice(1);
+					}
 					//### Character might be start of a comment, so it gets put "on hold".
 					if (char === blockCommentChars[0][0] || char === inlineCommentChars[0]) {
 						holdChars += char;
 					}
 					//### Nothing is "on hold", character can be safely returned.
-					if (holdChars.length === 0) {
-						parsedMolangString += char;
-					}
-					//### First "on hold" character isn't start of a comment, so it gets put "out of hold"
-					if (holdChars.length === 2) {
-						parsedMolangString += holdChars[0];
-						holdChars = holdChars[1];
+					if (holdChars.length === 0 && char !== '\n' && char !== '\r') {
+						trimmedMolangString += char;
 					}
 				} else {
 					//### Reset characters "on hold", because the characters were start of a comment.
@@ -299,9 +297,8 @@ function parseMolang(molangText) {
 			break;
 		}
 	}
-	return parsedMolangString;
+	return trimmedMolangString;
 }
-
 //Gettings String on the Line:
 function findString(document, selection) {
 	const line = document.lineAt(selection.end.line);
@@ -326,7 +323,7 @@ function findString(document, selection) {
 	return null;
 }
 
-//Other Extension Related Stuff:
+//# Other Stuff
 function deactivate() { }
 
 module.exports = {
