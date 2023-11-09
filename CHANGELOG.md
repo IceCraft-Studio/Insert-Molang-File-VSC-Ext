@@ -72,3 +72,9 @@
 
 - Fixed a bug, that subfolders with a names used by some root folder made the extension look for the `molang` folder in an incorrect directory. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
 - Insert will now ignore comment characters like `//` or `/* */` inside Molang strings and keep the string unchanged.
+
+## 2.3.1
+
+### Bug Fixes
+
+- Fixed randomly occuring problems with identification of addon root folder.

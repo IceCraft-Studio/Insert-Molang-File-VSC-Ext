@@ -2,7 +2,7 @@
 	"name": "insert-molang-file",
 	"displayName": "Insert Molang File [Minecraft Bedrock]",
 	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as a single-line string into Minecraft Bedrock add-on files.",
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"icon": "assets/icon.png",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"publisher": "IceCraftStudio",
