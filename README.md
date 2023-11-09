@@ -44,7 +44,6 @@ This extension does not have any dependencies.
 
 More details are explained within VSCode settings.
 
-When using the typing option, you might need to save the file after typing the molang name for the insert to happen.
 Usage example of inserting Molang file by typing its name:
 
 ![usage example legacy](https://raw.githubusercontent.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-/main/assets/example_usage_legacy.gif)

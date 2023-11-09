@@ -21,7 +21,7 @@ const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
 //const output = vscode.window.createOutputChannel("Molang-Insert");
-const ADDON_FILE_REGEX = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi
+//const ADDON_FILE_REGEX = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi
 
 //# Activation of the Extension:
 function activate(context) {
@@ -51,37 +51,36 @@ function molangInsertUi() {
 		return;
 	}
 
-	var panel = vscode.window.createWebviewPanel(
+	let panel = vscode.window.createWebviewPanel(
 		'molang-insert',
-		'Insert MoLang File',
+		'Insert Molang File',
 		textEditor.viewColumn,
 		{
 			enableScripts: true
 		}
 	);
 
-	const fileMatch = ADDON_FILE_REGEX.exec(document.fileName);
-	if (fileMatch === null) {
+	const fileRegex = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi;
+	const fileMatch = fileRegex.exec(document.fileName);
+	if (fileMatch == null) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`Can't identify this as behavior/resource pack file!`);
 		return;
 	}
 
 	const string = findString(document, selection);
-	if (string === null) {
+	if (string == null) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`Your cursor isn't targeting a string!`);
 		return;
 	}
 
 	const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
-	const insertIntoString = `${document.fileName} @ Ln ${selection.start.line + 1} Col ${selection.start.character + 1}`;
+	const insertIntoString = `${document.fileName} @ Line ${selection.start.line + 1}`;
 	panel.webview.html = generateUiContent(addonPath, panel, insertIntoString);
 
 	panel.onDidChangeViewState(event => {
-		if (event.webviewPanel.visible === false) {
-			panel.dispose();
-		}
+		if (!event.webviewPanel.visible) panel.dispose();
 	});
 
 	panel.onDidDispose(
@@ -122,7 +121,7 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
 		vscode.window.showInformationMessage(`Molang folder can't be found within current behavior/resource pack!`);
-		return
+		return;
 	}
 
 	//File List:
@@ -165,7 +164,8 @@ function textDocumentChange(event) {
 	if (selection == null) return;
 
 	if (document.fileName.endsWith('.json') && selection.isSingleLine) {
-		const fileMatch = ADDON_FILE_REGEX.exec(document.fileName);
+		const fileRegex = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi;
+		const fileMatch = fileRegex.exec(document.fileName);
 		if (fileMatch && (fileMatch[1]?.length > 0)) {
 			const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
 			if (addonPath != null) {
@@ -199,7 +199,7 @@ function insertMolangFile(addonPath, string, prefix) {
 			
 			function editText() {
 				function waitForEditor(resolve, reject) {
-					if (vscode.window.activeTextEditor !== undefined) {
+					if (vscode.window.activeTextEditor != null) {
 						resolve(vscode.window.activeTextEditor);
 					} else {
 						setTimeout(waitForEditor.bind(this, resolve, reject), 100);
