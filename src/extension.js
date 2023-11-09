@@ -21,17 +21,18 @@ const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
 //const output = vscode.window.createOutputChannel("Molang-Insert");
+const ADDON_FILE_REGEX = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi
 
-//Activation of the Extension:
+//# Activation of the Extension:
 function activate(context) {
 	console.log('Insert MoLang File [Minecraft Bedrock] - Loaded');
 
-	//Command and Context Manu Insert:
+	//### Command and Context Menu Insert:
 	context.subscriptions.push(
 		vscode.commands.registerCommand('molang-insert.openUi', () => molangInsertUi())
 	);
 
-	//Typing Insert:
+	//### Typing Insert:
 	const typingEnabled = vscode.workspace.getConfiguration('molang-insert.typing').get('enabled');
 	if (typingEnabled) {
 		context.subscriptions.push(
@@ -40,6 +41,7 @@ function activate(context) {
 	}
 }
 
+//# UI for Molang Insert
 function molangInsertUi() {
 	const textEditor = vscode.window.activeTextEditor;
 	const document = textEditor?.document;
@@ -58,8 +60,7 @@ function molangInsertUi() {
 		}
 	);
 
-	const fileRegex = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:\/|\\).*?[^\/\\]*\.json)/gmi
-	const fileMatch = fileRegex.exec(document.fileName);
+	const fileMatch = ADDON_FILE_REGEX.exec(document.fileName);
 	if (fileMatch === null) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`Can't identify this as behavior/resource pack file!`);
@@ -74,7 +75,8 @@ function molangInsertUi() {
 	}
 
 	const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
-	panel.webview.html = generateUiContent(addonPath, panel);
+	const insertIntoString = `${document.fileName} @ Ln ${selection.start.line + 1} Col ${selection.start.character + 1}`;
+	panel.webview.html = generateUiContent(addonPath, panel, insertIntoString);
 
 	panel.onDidChangeViewState(event => {
 		if (event.webviewPanel.visible === false) {
@@ -101,11 +103,10 @@ function molangInsertUi() {
 }
 
 //# MoLang Insert UI Generator:
-function generateUiContent(addonPath, panel) {
+function generateUiContent(addonPath, panel, insertIntoString) {
 	const molangFolder = path.join(addonPath, 'molang');
 	let files = {};
 	let fileItems = '';
-	let length = 99;
 
 	//## File Info:
 	try {
@@ -114,15 +115,12 @@ function generateUiContent(addonPath, panel) {
 				const filePath = path.join(molangFolder, file);
 				files[file] = {};
 				files[file].date = fs.statSync(filePath).mtime;
-				const fileContents = fs.readFileSync(filePath, 'utf8');
-				if (fileContents.length < 100) {
-					length = fileContents.length;
-				}
-				files[file].preview = fs.readFileSync(filePath, 'utf8').substring(0, length).replace(/(?:(?:#|\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
+				files[file].preview = trimMolang(fs.readFileSync(filePath, 'utf8'));
 			}
 		});
 	} catch {
 		panel.dispose();
+		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
 		vscode.window.showInformationMessage(`Molang folder can't be found within current behavior/resource pack!`);
 		return
 	}
@@ -150,7 +148,7 @@ function generateUiContent(addonPath, panel) {
 		vscode.window.showInformationMessage(`Molang folder doesn't have any MoLang files inside!`);
 		return;
 	}
-	const htmlCode = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert MoLang File</title> </head> <style> * { color: var(--vscode-foreground); } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <p><i>Leave this tab to close.</i></p> <h1>Insert MoLang File</h1> <p>Choose a file from the list of files found here:</p> <div> ${fileItems} </div> <p><b>DIRECTORY: </b><code>${molangFolder}</code></p> </body> </html>`;
+	const htmlCode = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert Molang File</title> </head> <style> * { color: var(--vscode-foreground); } .bold { font-weight: bold; } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <h1>Insert Molang File</h1> <p><span class="bold">Inserting into file:</span> <code>${insertIntoString}</code></p> <p><span class="bold">Molang directory:</span> <code>${molangFolder}</code></p> <p>Pick a file from the list of files found here:</p> <div> ${fileItems} </div> </body> </html>`;
 	return htmlCode;
 }
 
@@ -167,8 +165,7 @@ function textDocumentChange(event) {
 	if (selection == null) return;
 
 	if (document.fileName.endsWith('.json') && selection.isSingleLine) {
-		const fileRegex = /((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|trading|loot_tables|animations|animation_controllers|recipes|spawn_rules|attachables|fogs|materials|particles|render_controllers|shaders|sounds|ui|models|library)(?:\/|\\).*?[^\/\\]*\.json)/gmi
-		const fileMatch = fileRegex.exec(document.fileName);
+		const fileMatch = ADDON_FILE_REGEX.exec(document.fileName);
 		if (fileMatch && (fileMatch[1]?.length > 0)) {
 			const addonPath = document.fileName.slice(0,document.fileName.length - fileMatch[1].length);
 			if (addonPath != null) {
@@ -198,17 +195,19 @@ function insertMolangFile(addonPath, string, prefix) {
 		molangFile.path = path.join(addonPath, 'molang', molangFile.name);
 		try {
 			molangFile.text = fs.readFileSync(molangFile.path, 'utf8');
-			molangFile.text = molangFile.text.replace(/(?:(?:\/\/)[^\n\r\f]*)|(?:\/\*(?:.|[\n\r\f])*\*\/)/gmi, '').replace(/[\n\r\f]/gmi, '');
+			molangFile.text = trimMolang(molangFile.text);
+			
 			function editText() {
-				return new Promise((resolve, reject) => {
+				function waitForEditor(resolve, reject) {
 					if (vscode.window.activeTextEditor !== undefined) {
 						resolve(vscode.window.activeTextEditor);
 					} else {
 						setTimeout(waitForEditor.bind(this, resolve, reject), 100);
 					}
-				});
+				}
+				return new Promise(waitForEditor);
 			}
-			editText().then(() => {
+			editText().then(function () {
 				vscode.window.activeTextEditor.edit(editBuilder => {
 					editBuilder.replace(string.range, molangFile.text);
 					vscode.window.showInformationMessage(`"${molangFile.name}" successfully inserted!`);
@@ -237,6 +236,7 @@ function trimMolang(molangText) {
 
 	const quoteChar = '\'';
 	const inlineCommentChars = '//';
+	const inlineCommentSingleChar = '#';
 	const blockCommentChars = ['/*','*/'];
 
 	let inString = false;
@@ -249,7 +249,7 @@ function trimMolang(molangText) {
 		//### Molang string handling, comments don't work inside.
 		if (char === quoteChar && inComment === CommentTypes.none) inString = !inString;
 		if (inString) {
-			if (char !== '\n') trimmedMolangString += char;
+			if (char !== '\n' && char !== '\r') trimmedMolangString += char;
 			continue;
 		}
 
@@ -259,6 +259,8 @@ function trimMolang(molangText) {
 				//### Inline Comments
 				sliceToCompare = molangText.slice((index-inlineCommentChars.length)+1,index+1);
 				if (sliceToCompare === inlineCommentChars) inComment = CommentTypes.inline;
+				//### Single Character Inline Comments
+				if (char === inlineCommentSingleChar) inComment = CommentTypes.inline;
 				//### Block Comments
 				sliceToCompare = molangText.slice((index-blockCommentChars[0].length)+1,index+1);
 				if (sliceToCompare === blockCommentChars[0]) inComment = CommentTypes.block;
@@ -299,7 +301,8 @@ function trimMolang(molangText) {
 	}
 	return trimmedMolangString;
 }
-//Gettings String on the Line:
+
+//# Gettings String on the Line:
 function findString(document, selection) {
 	const line = document.lineAt(selection.end.line);
 	const stringRegex = /"(.*?)(?<!\\)"/g;
