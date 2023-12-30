@@ -20,8 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
-//const output = vscode.window.createOutputChannel("Molang-Insert");
-//const ADDON_FILE_REGEX = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi
 
 //# Activation of the Extension:
 function activate(context) {
@@ -55,9 +53,7 @@ function molangInsertUi() {
 		'molang-insert',
 		'Insert Molang File',
 		textEditor.viewColumn,
-		{
-			enableScripts: true
-		}
+		{enableScripts: true}
 	);
 
 	const fileRegex = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi;
@@ -101,6 +97,10 @@ function molangInsertUi() {
 	);
 }
 
+function getAddonRootPath() {
+	
+}
+
 //# MoLang Insert UI Generator:
 function generateUiContent(addonPath, panel, insertIntoString) {
 	const molangFolder = path.join(addonPath, 'molang');
@@ -108,6 +108,12 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 	let fileItems = '';
 
 	//## File Info:
+	if (!fs.existsSync(molangFolder)) {
+		panel.dispose();
+		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
+		vscode.window.showInformationMessage(`Molang folder can't be found in the addon! Read extension page for help!`);
+		return;
+	}
 	try {
 		fs.readdirSync(molangFolder).forEach(file => {
 			if (file.endsWith('.molang')) {
@@ -117,10 +123,11 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 				files[file].preview = trimMolang(fs.readFileSync(filePath, 'utf8'));
 			}
 		});
-	} catch {
+	} catch (error) {
 		panel.dispose();
+		vscode.window.showInformationMessage(`${error}`);
 		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
-		vscode.window.showInformationMessage(`Molang folder can't be found within current behavior/resource pack!`);
+		vscode.window.showInformationMessage(`Molang folder can't be found in the addon! Read extension page for help!`);
 		return;
 	}
 

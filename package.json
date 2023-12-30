@@ -55,19 +55,15 @@
 			{
 				"title": "Insert Molang File",
 				"properties": {
-					"molang-insert.typing.prefix": {
+					"molang-insert.behaviorPackPath": {
 						"scope": "resource",
-						"minLength": 0,
-						"maxLength": 3,
-						"type": "string",
 						"default": "",
-						"markdownDescription": "Sepecifies prefix for a string to use before Molang file name in such format: `{prefix}{fileName}.molang`, leave blank for no prefix to be required in the string. *Only applies when `#molang-insert.typing.enabled#` is set to `true`.*"
+						"markdownDescription": "Overrides the root path of the behavior pack, where `molang` folder for behavior files is located. Leave blank for automatic detection. **Don't use this in User settings!**"
 					},
-					"molang-insert.typing.enabled": {
+					"molang-insert.resourcePackPath": {
 						"scope": "resource",
-						"type": "boolean",
-						"default": true,
-						"markdownDescription": "If set to `true`, you can insert Molang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for changes to take effect.*"
+						"default": "",
+						"markdownDescription": "Overrides the root path of the resource pack, where `molang` folder for resource files is located. Leave blank for automatic detection. **Don't use this in User settings!**"
 					},
 					"molang-insert.fileSorting": {
 						"scope": "resource",
@@ -81,6 +77,20 @@
 							"Sorts the files by their name alphabetically."
 						],
 						"description": "Sets the order of files in the Insert Molang File menu."
+					},
+					"molang-insert.typing.enabled": {
+						"scope": "resource",
+						"type": "boolean",
+						"default": true,
+						"markdownDescription": "If set to `true`, you can insert Molang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for this to take effect.*"
+					},
+					"molang-insert.typing.prefix": {
+						"scope": "resource",
+						"minLength": 0,
+						"maxLength": 10,
+						"type": "string",
+						"default": "",
+						"markdownDescription": "Sepecifies prefix for a string to use before Molang file name in such format: `{prefix}{fileName}.molang`. Leave blank for no prefix to be required in the string."
 					}
 				}
 			}

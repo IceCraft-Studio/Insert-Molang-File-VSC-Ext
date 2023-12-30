@@ -1,22 +1,53 @@
 # Change Log
 
-## 1.0.0
+## 2.4.0
 
-- Initial release of the extension.
+- Added an extension configuration that let's you hard set the root directory of the resource pack and the behavior pack. Meant to be used on a workspace scope. Useful if the algorithm for finding the `/molang` folder fails to find it.
 
-## 1.0.2
+## 2.3.1
 
 ### Bug Fixes
 
-- Biome files now insert MoLang as well.
-- UNIX systems should now registre MoLang file directory correctly.
+- Fixed randomly occuring problems with identification of addon root folder.
 
-## 1.0.3
+## 2.3.0
+
+### Changes
+
+- Added more information to the UI.
+- Updated some texts.
+
+### Bug Fixes
+
+- Fixed a bug, that subfolders with a names used by some root folder made the extension look for the `molang` folder in an incorrect directory. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
+- Insert will now ignore comment characters like `//` or `/* */` inside Molang strings and keep the string unchanged.
+
+## 2.2.0
+
+### Bug Fixes
+
+- Fixed uncaught errors with `selection`.
+
+### Other
+
+- Changed the source code's license to a more viable solution.
+- Removed unnecessary dependancy on [Blockception's Minecraft Bedrock Development](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension).
+
+## 2.1.1
+
+### Bug Fixes
+
+- Client entity files no longer send false error messages.
+
+## 2.1.0
 
 ### Features
 
-- *New condition!* - Now either one of those keywords must be present in the root pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the root pack folder must be in folder which name ends with `behavior_packs` or `resource_packs` in order for the molang insertation to work.  
-*This change's been made so that the feature is restricted to Minecraft add-on workspace.*
+- Comments are now possible inside of MoLang files, single-line using `#` or `//` and multi-line using `/*` and `*/`.
+
+### Other
+
+- Removed some unnecessary code.
 
 ## 2.0.0
 
@@ -34,47 +65,21 @@
 
 - Certain files will no longer throw errors.
 
-## 2.1.0
+
+## 1.0.3
 
 ### Features
 
-- Comments are now possible inside of MoLang files, single-line using `#` or `//` and multi-line using `/*` and `*/`.
+- *New condition!* - Now either one of those keywords must be present in the root pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the root pack folder must be in folder which name ends with `behavior_packs` or `resource_packs` in order for the molang insertation to work.  
+*This change's been made so that the feature is restricted to Minecraft add-on workspace.*
 
-### Other
-
-- Removed some unnecessary code.
-
-## 2.1.1
+## 1.0.2
 
 ### Bug Fixes
 
-- Client entity files no longer send false error messages.
+- Biome files now insert MoLang as well.
+- UNIX systems should now registre MoLang file directory correctly.
 
-## 2.2.0
+## 1.0.0
 
-### Bug Fixes
-
-- Fixed uncaught errors with `selection`.
-
-### Other
-
-- Changed the source code's license to a more viable solution.
-- Removed unnecessary dependancy on [Blockception's Minecraft Bedrock Development](https://marketplace.visualstudio.com/items?itemName=BlockceptionLtd.blockceptionvscodeminecraftbedrockdevelopmentextension).
-
-## 2.3.0
-
-### Changes
-
-- Added more information to the UI.
-- Updated some texts.
-
-### Bug Fixes
-
-- Fixed a bug, that subfolders with a names used by some root folder made the extension look for the `molang` folder in an incorrect directory. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
-- Insert will now ignore comment characters like `//` or `/* */` inside Molang strings and keep the string unchanged.
-
-## 2.3.1
-
-### Bug Fixes
-
-- Fixed randomly occuring problems with identification of addon root folder.
+- Initial release of the extension.

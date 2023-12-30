@@ -1,29 +1,44 @@
-# Insert MoLang File \[Minecraft Bedrock\]
+# Insert Molang File \[Minecraft Bedrock\]
 
-Very simple extension to make development on Minecraft: Bedrock a little more easier, it gives you options to insert `.molang` files into `.json` files without a problem.
+Very simple extension to make development of Minecraft: Bedrock Edition packs a little more easier,
+it gives you options to insert `.molang` files into `.json` files without a problem.
 
 ## Usage
 
-To use this extension, simply right click (you can also use command pallete) on any string within an addon file, a menu will pop up and you can select whichever file from the `molang` folder you want to insert. It doesn't matter if the string is empty or not, it will simply replace it completely.
-If working in resource pack file it will only look into resource pack's `molang` folder and so with behavior packs.  
-When it inserts the MoLang file's code, it removes any newlines or returns and comments, so you don't have to worry about json errors!  
-Comments are supported within MoLang files like so: single-line comments using `//<comment>` or `#<comment>` and multi-line comments using `/*<comment>*/`. They will be ignored and won't be inserted.
+- To use this extension, right click (you can also use command pallete) on any string inside an addon file, a menu will pop up
+and you can select whichever file from the `molang` folder you want to insert. It doesn't matter if the string is empty or not,
+it will simply replace it completely.
+- **The `molang` folder must be located in the same folder as the `manifest.json` file!** If you're working in resource pack file
+it will search the resource pack's `molang` folder and so with behavior packs.  
+- When it inserts the molang file's code, it removes any newlines or returns and comments, so you don't have to worry about json errors!  
+- Comments are supported within molang files like so: single-line comments using `//<comment>` or `#<comment>` and multi-line comments using `/*<comment>*/`. They will be ignored and won't be inserted.
 
-### !Attention!
+## Attention
 
-Molang files in subfolders aren't supported, refer only to files in root folders!
+- Molang files in subfolders aren't supported, refer only to files in pack's root folder!
+- `molang` folder is case-sensitive, make sure it's all lower-case letters!
+- The extension automatically looks for the pack's root path by finding the path closest to the root of the file system, that contains a folder with keyword like `features` or `entities`. Make sure folders with keywords don't exist anywhere in the path leading to the pack's root, only **inside** the pack's root!
 
-`molang` folder is case-sensitive, make sure it's all lower-case letters!
+## Fix for the problem "Molang folder can't be found in the addon!"
 
-The extension looks for the addon root path by finding the directory closest to the root of the file system, that contains a folder with addon keyword name like `features` or `entities`. Make sure addon folder keyword names don't exist anywhere in the addon root path, only inside the addon!
+- Example of this problem with such file path: `C:\Minecraft\Development\biomes\My addon BP\features\test.json`.
+- You have your molang files inside folder at: `C:\Minecraft\Development\biomes\My addon BP\molang\`.
+- However the extension will expect your pack's root to be located at `C:\Minecraft\Development\`, even if you intent it to be `C:\Minecraft\Development\biomes\My addon BP\`, because it contains the keyword `biomes` first.
 
-Example of this problem: `C:\Minecraft\Development\biomes\My addon\features\test.json`
+### 1. Solution - Rename the folder with keyword that's outside of the pack's root
 
-- In this case the extension will think your addon is located at `C:\Minecraft\Development\` even if you intent to have it at `C:\Minecraft\Development\biomes\My addon\`. A simple fix for this is to replace the `biomes` folder with something else like `Custom Biomes`, which isn't a keyword name.
+- This fix involves replacing the `biomes` folder mentioned in the example with something else like `Custom Biomes`,
+which isn't a keyword.
+- List of folder keywords: `subpacks,features,biomes,feature_rules,entities,entity,blocks,items,animations,animation_controllers,attachables,particles,render_controllers`
 
-Addon folder keyword names: `subpacks,features,biomes,feature_rules,entities,entity,blocks,items,animations,animation_controllers,attachables,particles,render_controllers`
+### 2. Solution - Override the addon root folder, disable automatic detection
 
-### Usage example:
+- If you don't want to rename any folder in the path, you can still fix the problem by overriding the root path of your packs
+in the extension [settings](https://code.visualstudio.com/docs/getstarted/settings). This disables the automatic detection of
+the pack's root path. You should [setup a workspace](https://code.visualstudio.com/docs/editor/workspaces) to apply
+the settings for each project individually, **don't override the root paths in the User settings!**
+
+### Usage example
 
 ![usage example](https://raw.githubusercontent.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-/main/assets/example_usage.gif)
 
