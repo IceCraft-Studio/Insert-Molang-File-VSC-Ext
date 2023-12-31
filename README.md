@@ -35,8 +35,8 @@ which isn't a keyword.
 
 - If you don't want to rename any folder in the path, you can still fix the problem by overriding the root path of your packs
 in the extension [settings](https://code.visualstudio.com/docs/getstarted/settings). This disables the automatic detection of
-the pack's root path. You should [setup a workspace](https://code.visualstudio.com/docs/editor/workspaces) to apply
-the settings for each project individually, **don't override the root paths in the User settings!**
+the pack's root path. It is recommended to [setup a workspace](https://code.visualstudio.com/docs/editor/workspaces) to apply
+the settings for each project individually.
 
 ### Usage example
 
@@ -53,7 +53,9 @@ This extension does not have any dependencies.
 
 ## Settings
 
-- `molang-insert.fileSorting`: set how files will be sorted in the menu
+- `molang-insert.behaviorPackPath`: override root path of the behavior pack
+- `molang-insert.resourcePackPath`: override root path of the resource pack
+- `molang-insert.fileSorting`: set how will be files sorted in the menu
 - `molang-insert.typing.enabled`: set to `true` if you want to insert molang files by typing their name alone into a string (optionally with a prefix)
 - `molang-insert.typing.prefix`: optional setting to set prefix when using typing option mentioned above
 

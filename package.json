@@ -1,8 +1,8 @@
 {
 	"name": "insert-molang-file",
 	"displayName": "Insert Molang File [Minecraft Bedrock]",
-	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as a single-line string into Minecraft Bedrock add-on files.",
-	"version": "2.3.1",
+	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as a single-line string into Minecraft Bedrock addon files.",
+	"version": "2.4.0",
 	"icon": "assets/icon.png",
 	"license": "SEE LICENSE IN LICENSE.md",
 	"publisher": "IceCraftStudio",
@@ -56,16 +56,21 @@
 				"title": "Insert Molang File",
 				"properties": {
 					"molang-insert.behaviorPackPath": {
+						"order": 0,
 						"scope": "resource",
 						"default": "",
-						"markdownDescription": "Overrides the root path of the behavior pack, where `molang` folder for behavior files is located. Leave blank for automatic detection. **Don't use this in User settings!**"
+						"type": "string",
+						"markdownDescription": "Overrides the root path of the behavior pack, where `molang` folder for behavior files is located. Leave blank for automatic detection."
 					},
 					"molang-insert.resourcePackPath": {
+						"order": 1,
 						"scope": "resource",
 						"default": "",
-						"markdownDescription": "Overrides the root path of the resource pack, where `molang` folder for resource files is located. Leave blank for automatic detection. **Don't use this in User settings!**"
+						"type": "string",
+						"markdownDescription": "Overrides the root path of the resource pack, where `molang` folder for resource files is located. Leave blank for automatic detection."
 					},
 					"molang-insert.fileSorting": {
+						"order": 2,
 						"scope": "resource",
 						"default": "dateModified",
 						"enum": [
@@ -79,12 +84,14 @@
 						"description": "Sets the order of files in the Insert Molang File menu."
 					},
 					"molang-insert.typing.enabled": {
+						"order": 3,
 						"scope": "resource",
 						"type": "boolean",
 						"default": true,
 						"markdownDescription": "If set to `true`, you can insert Molang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for this to take effect.*"
 					},
 					"molang-insert.typing.prefix": {
+						"order": 4,
 						"scope": "resource",
 						"minLength": 0,
 						"maxLength": 10,
