@@ -19,7 +19,7 @@ it will search the resource pack's `molang` folder and so with behavior packs.
 - `molang` folder is case-sensitive, make sure it's all lower-case letters!
 - The extension automatically looks for the pack's root path by finding the path closest to the root of the file system, that contains a folder with keyword like `features` or `entities`. Make sure folders with keywords don't exist anywhere in the path leading to the pack's root, only **inside** the pack's root!
 
-## Fix for the problem "Molang folder can't be found in the addon!"
+## Fix for the problem "Molang folder can't be found in the pack!"
 
 - Example of this problem with such file path: `C:\Minecraft\Development\biomes\My addon BP\features\test.json`.
 - You have your molang files inside folder at: `C:\Minecraft\Development\biomes\My addon BP\molang\`.
@@ -45,7 +45,7 @@ the settings for each project individually, **don't override the root paths in t
 ## Setup
 
 - Molang folder in your resource pack or behavior pack (*`[BP/RP]`*`\molang`) with Molang files in it.
-- Any addon file to insert Molang code into.
+- Any addon file to insert molang code into.
 
 ## Dependencies
 
@@ -65,7 +65,7 @@ Usage example of inserting Molang file by typing its name:
 
 ## Known Issues
 
-So far no issues have been spotted.
+There are no issues we are aware of.
 
 ## Finishing up
 
@@ -77,4 +77,4 @@ This extension is made by **Studio IceCraft**
 \
 *Not affiliated with Mojang or Microsoft*
 
-**Minecraft is an IP owned by Microsoft and Molang is a part of this IP, all legal rights to those subjects belong to them.**
+**Minecraft is an IP owned by Microsoft. Molang is a part of this IP and all legal rights to those subjects belong to Microsoft.**

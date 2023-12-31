@@ -49,7 +49,7 @@ function molangInsertUi() {
 		return;
 	}
 
-	let panel = vscode.window.createWebviewPanel(
+	const panel = vscode.window.createWebviewPanel(
 		'molang-insert',
 		'Insert Molang File',
 		textEditor.viewColumn,
@@ -97,8 +97,23 @@ function molangInsertUi() {
 	);
 }
 
-function getAddonRootPath() {
+/**
+ * Gets the root path of the addon, it first checks for overrides and if overrides don't match, 
+ * then it uses regex to automatically search for the root path.
+ * @param {string} filePath 
+ * @returns {string}
+ */
+function getAddonRootPath(filePath) {
+	const overrideBeh = vscode.workspace.getConfiguration('molang-insert.behaviorPackPath');
+	const overrideRes = vscode.workspace.getConfiguration('molang-insert.resourcePackPath');
+	if (overrideBeh != '' && filePath.startsWith(overrideBeh)) return overrideBeh;
+	if (overrideRes != '' && filePath.startsWith(overrideRes)) return overrideRes;
+
+	const fileRegex = /(?:\/|\\)((?:subpacks|features|biomes|feature_rules|entities|entity|blocks|items|animations|animation_controllers|attachables|particles|render_controllers)(?:\/|\\).*?[^\/\\]*\.json)/gmi;
+	const fileMatch = fileRegex.exec(filePath);
 	
+	if (fileMatch == null) return null;
+	return filePath.slice(0,filePath.length - fileMatch[1].length);
 }
 
 //# MoLang Insert UI Generator:
@@ -111,7 +126,7 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 	if (!fs.existsSync(molangFolder)) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
-		vscode.window.showInformationMessage(`Molang folder can't be found in the addon! Read extension page for help!`);
+		vscode.window.showInformationMessage(`Molang folder can't be found in the pack! Read extension page for help!`);
 		return;
 	}
 	try {
@@ -127,7 +142,7 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 		panel.dispose();
 		vscode.window.showInformationMessage(`${error}`);
 		vscode.window.showInformationMessage(`Path: ${molangFolder}`);
-		vscode.window.showInformationMessage(`Molang folder can't be found in the addon! Read extension page for help!`);
+		vscode.window.showInformationMessage(`Molang folder can't be found in the pack! Read extension page for help!`);
 		return;
 	}
 
@@ -151,11 +166,10 @@ function generateUiContent(addonPath, panel, insertIntoString) {
 		}
 	} else {
 		panel.dispose();
-		vscode.window.showInformationMessage(`Molang folder doesn't have any MoLang files inside!`);
+		vscode.window.showInformationMessage(`Molang folder doesn't have any .molang files inside!`);
 		return;
 	}
-	const htmlCode = `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert Molang File</title> </head> <style> * { color: var(--vscode-foreground); } .bold { font-weight: bold; } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <h1>Insert Molang File</h1> <p><span class="bold">Inserting into file:</span> <code>${insertIntoString}</code></p> <p><span class="bold">Molang directory:</span> <code>${molangFolder}</code></p> <p>Pick a file from the list of files found here:</p> <div> ${fileItems} </div> </body> </html>`;
-	return htmlCode;
+	return `<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Insert Molang File</title> </head> <style> * { color: var(--vscode-foreground); } .bold { font-weight: bold; } .file-item { width: 25rem; background-color: var(--vscode-sideBar-background); padding: 7px; margin-bottom: 0px; box-sizing: border-box; } .file-item:hover { background-color: var(--vscode-list-hoverBackground); outline: 1px dashed var(--vscode-toolbar-hoverOutline); outline-offset: -1px; user-select: none; cursor: pointer; } .file-item .preview { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; } .file-item .name { font-family: var(--vscode-font-family); font-size: 110%; padding-right: 11px; font-weight: 700; } .file-item .date-modified { font-size: 90%; font-weight: 600; padding-right: 11px; font-family: var(--vscode-font-family); } .file-item .no-file { font-family: var(--vscode-font-family); font-size: 150%; font-weight: 700; } </style> <script> const vscode = acquireVsCodeApi(); function sendMessage(command, text) { vscode.postMessage({ command: command, text: text }); } </script> <body> <h1>Insert Molang File</h1> <p><span class="bold">Inserting into file:</span> <code>${insertIntoString}</code></p> <p><span class="bold">Molang directory:</span> <code>${molangFolder}</code></p> <p>Pick a file from the list of files found here:</p> <div> ${fileItems} </div> </body> </html>`;
 }
 
 //# Typing Insert Trigger:
@@ -309,7 +323,13 @@ function trimMolang(molangText) {
 	return trimmedMolangString;
 }
 
-//# Gettings String on the Line:
+//# Finding String
+/**
+ * Gets and parses quoted string inside which the cursor is located
+ * @param {import('vscode').TextDocument} document 
+ * @param {import('vscode').Selection} selection 
+ * @returns 
+ */
 function findString(document, selection) {
 	const line = document.lineAt(selection.end.line);
 	const stringRegex = /"(.*?)(?<!\\)"/g;
@@ -333,7 +353,7 @@ function findString(document, selection) {
 	return null;
 }
 
-//# Other Stuff
+//# Boilerplate
 function deactivate() { }
 
 module.exports = {
