@@ -2,7 +2,23 @@
 
 ## 2.4.0
 
-- Added an extension configuration that let's you hard set the root directory of the resource pack and the behavior pack. Meant to be used on a workspace scope. Useful if the algorithm for finding the `/molang` folder fails to find it.
+### Features
+
+- Added an extension setting that lets you override the root path of the resource pack and the behavior pack. Useful in a case
+when the automatic detection doesn't detect the pack's root folder correctly.
+- Added support for files inside subfolders of the `molang` folder. Those files are shown in the menu and can be used in the typing mode as well.
+- Unnecessary consecutive spaces inside of molang files are now reduced to just a single space when inserting.
+
+### Changes
+
+- Updated the extension icon.
+- Improved the UI look of the Insert Molang menu.
+- Added ability to focus into the files inside the Insert Molang menu using the keyboard with Tab.
+- Refactored a lot of the code.
+- Improved the README to be more clear, helpful and informative.
+- Updated some descriptions of the extension settings.
+- Fixed the order in which the extension settings are sorted.
+- Increased the maximum length of the prefix for typing mode to 10 characters.
 
 ## 2.3.1
 
@@ -19,7 +35,8 @@
 
 ### Bug Fixes
 
-- Fixed a bug, that subfolders with a names used by some root folder made the extension look for the `molang` folder in an incorrect directory. [Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
+- Fixed a bug, that subfolders with a names used by some root folder made the extension look for the `molang` folder in an incorrect directory.
+[Issue #1](https://github.com/IceCraft-Studio/Insert-Molang-File-VSC-Ext/issues/1).
 - Insert will now ignore comment characters like `//` or `/* */` inside Molang strings and keep the string unchanged.
 
 ## 2.2.0
@@ -43,7 +60,7 @@
 
 ### Features
 
-- Comments are now possible inside of MoLang files, single-line using `#` or `//` and multi-line using `/*` and `*/`.
+- Comments are now possible inside of molang files, single-line using `#` or `//` and multi-line using `/*` and `*/`.
 
 ### Other
 
@@ -53,13 +70,16 @@
 
 ### Features
 
-- *Actual UI for selecting the files!* - Now you can right click on a string or use the command pallete to bring **Insert MoLang File** menu which lets you select the files instead of typing their name inside the string, it doesn't matter if the string is empty or not it will simply replace it completely with contents of selected MoLang file without whitespace characters.
+- *Actual UI for selecting the files!* - Now you can right click on a string or use the command pallete to bring **Insert Molang File** menu
+which lets you select the files instead of typing their name inside the string, it doesn't matter if the string is empty or not it will
+simply replace it completely with contents of selected molang file without whitespace characters.
   
 - New setting `molang-insert.fileSorting` - sets the order of files in the menu, either sorted by date modified or alphabetically.
 
 ### Changes
 
-- Because of the UI addition, now legacy way of using the extension is toggleable using `molang-insert.typing.enabled` setting, which you might turn off if you would like you.
+- Because of the UI addition, now legacy way of using the extension is toggleable using `molang-insert.typing.enabled` setting,
+which you might turn off if you would like to.
 
 ### Bug Fixes
 
@@ -70,15 +90,16 @@
 
 ### Features
 
-- *New condition!* - Now either one of those keywords must be present in the root pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`) or the root pack folder must be in folder which name ends with `behavior_packs` or `resource_packs` in order for the molang insertation to work.  
+- *New condition!* - Now either one of those keywords must be present in the root pack folder's name (`bp`,`rp`,`beh`,`res`,`behavior`,`resource`)
+or the root pack folder must be in folder which name ends with `behavior_packs` or `resource_packs` in order for the molang insertation to work.
 *This change's been made so that the feature is restricted to Minecraft add-on workspace.*
 
 ## 1.0.2
 
 ### Bug Fixes
 
-- Biome files now insert MoLang as well.
-- UNIX systems should now registre MoLang file directory correctly.
+- Biome files now insert molang as well.
+- UNIX systems should now register `molang` file directory correctly.
 
 ## 1.0.0
 

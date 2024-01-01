@@ -1,7 +1,7 @@
 {
 	"name": "insert-molang-file",
 	"displayName": "Insert Molang File [Minecraft Bedrock]",
-	"description": "This extension lets you use '.molang' files when working on larger scripts and then easily insert them as a single-line string into Minecraft Bedrock addon files.",
+	"description": "This extension lets you use '.molang' files when working on larger scripts and easily insert them as a single-line string into Minecraft Bedrock addon files.",
 	"version": "2.4.0",
 	"icon": "assets/icon.png",
 	"license": "SEE LICENSE IN LICENSE.md",
@@ -60,14 +60,14 @@
 						"scope": "resource",
 						"default": "",
 						"type": "string",
-						"markdownDescription": "Overrides the root path of the behavior pack, where `molang` folder for behavior files is located. Leave blank for automatic detection."
+						"markdownDescription": "Overrides the root path of the behavior pack, i.e. where `molang` folder for behavior files is located. Leave blank for automatic detection."
 					},
 					"molang-insert.resourcePackPath": {
 						"order": 1,
 						"scope": "resource",
 						"default": "",
 						"type": "string",
-						"markdownDescription": "Overrides the root path of the resource pack, where `molang` folder for resource files is located. Leave blank for automatic detection."
+						"markdownDescription": "Overrides the root path of the resource pack, i.e. where `molang` folder for resource files is located. Leave blank for automatic detection."
 					},
 					"molang-insert.fileSorting": {
 						"order": 2,
@@ -88,7 +88,7 @@
 						"scope": "resource",
 						"type": "boolean",
 						"default": true,
-						"markdownDescription": "If set to `true`, you can insert Molang files by typing their name in specific context with optional prefix defined in `#molang-insert.typing.prefix#`. *Reload Visual Studio Code for this to take effect.*"
+						"markdownDescription": "When checked, you can insert molang files by typing their name/path **alone** in a string (optionally with a prefix - `#molang-insert.typing.prefix#`). *Reload VSCode for this to take effect!*"
 					},
 					"molang-insert.typing.prefix": {
 						"order": 4,
@@ -97,7 +97,7 @@
 						"maxLength": 10,
 						"type": "string",
 						"default": "",
-						"markdownDescription": "Sepecifies prefix for a string to use before Molang file name in such format: `{prefix}{fileName}.molang`. Leave blank for no prefix to be required in the string."
+						"markdownDescription": "Sepecifies prefix for a string to use before molang file name/path in such format: `{prefix}{fileName}.molang`. Leave blank for no prefix to be required in the string."
 					}
 				}
 			}
