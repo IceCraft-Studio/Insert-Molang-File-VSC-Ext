@@ -1,7 +1,8 @@
 /*
-Insert Molang File [VSCode Extension] - Brings options to easily insert
-contents of a `.molang` file into a `.json` file for MC Bedrock add-ons.
-Copyright (C) 2023  PavelDobCZ23
+Insert Molang File [Minecraft Bedrock] -  VSCode Extension - 
+Brings options to easily insert contents of a `.molang` file into a 
+`.json` file for Minecraft Bedrock add-ons.
+Copyright (C) 2024 PavelDobCZ23
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -6,7 +6,8 @@
 
 - Added an extension setting that lets you override the root path of the resource pack and the behavior pack. Useful in a case
 when the automatic detection doesn't detect the pack's root folder correctly.
-- Added support for files inside subfolders of the `molang` folder. Those files are shown in the menu and can be used in the typing mode as well.
+- Added support for files inside subfolders of the `molang` folder. Those files are shown in the menu and can
+be used in the typing mode as well.
 - Unnecessary consecutive spaces inside of molang files are now reduced to just a single space when inserting.
 
 ### Changes
@@ -19,6 +20,7 @@ when the automatic detection doesn't detect the pack's root folder correctly.
 - Updated some descriptions of the extension settings.
 - Fixed the order in which the extension settings are sorted.
 - Increased the maximum length of the prefix for typing mode to 10 characters.
+- Removed the `“Commons Clause” License Condition v1.0` from the LICENSE.
 
 ## 2.3.1
 

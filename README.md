@@ -47,7 +47,7 @@ in the extension [settings](https://code.visualstudio.com/docs/getstarted/settin
 the pack's root path. It is recommended to [setup a workspace](https://code.visualstudio.com/docs/editor/workspaces) to apply
 the settings for each project individually.
 
-### Usage example
+## Usage example
 
 ![usage example](https://raw.githubusercontent.com/PavelDobCZ23/Insert-Molang-File-VSCode-Extension-/main/assets/example_usage.gif)
 
@@ -68,7 +68,6 @@ This extension does not have any dependencies.
 - `molang-insert.typing.enabled`: checkbox to enable  typing mode - inserting molang files by typing their name/path alone into a string
 (optionally with a prefix)
 - `molang-insert.typing.prefix`: optional setting to set prefix when using typing mode
-
 - More details are explained within VSCode settings.
 
 ## Typing Mode Usage Example
@@ -82,6 +81,7 @@ There are no issues we are aware of.
 ## Finishing up
 
 This extension is made by **Studio IceCraft**
+The license is present in `LICENSE.md` file.
 
 - [Our Website!](https://www.icecraftstudio.repl.co) *WIP*
 - [Our Discord Server!](https://discord.com/invite/K28m8cKp74)
@@ -89,4 +89,5 @@ This extension is made by **Studio IceCraft**
 \
 *Not affiliated with Mojang or Microsoft*
 
-**Minecraft is an IP owned by Microsoft. Molang is a part of this IP and all legal rights to those subjects belong to Microsoft.**
+**Minecraft is an IP owned by Microsoft. Molang is a part of this IP and all legal rights to those subjects
+belong to Microsoft.**
